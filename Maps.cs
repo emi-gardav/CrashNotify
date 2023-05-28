@@ -117,13 +117,15 @@ namespace AppEmergencias
         private void SeleccionarRegistro(object sender, DataGridViewCellMouseEventArgs e)
         {
             int filaSeleccionada = e.RowIndex;
+            GMarkerGoogle BlipMarker = new GMarkerGoogle(new PointLatLng(25.721115799151143, -100.32688464858524), GMarkerGoogleType.blue_dot);
             txtPol.Text = dataGridEmrgncys.Rows[filaSeleccionada].Cells[0].Value.ToString();
-            GhostMarker.Position = new PointLatLng(Convert.ToDouble(dataGridEmrgncys.Rows[filaSeleccionada].Cells[1].Value.ToString()),
-                Convert.ToDouble(dataGridEmrgncys.Rows[filaSeleccionada].Cells[2].Value.ToString()));
-            markerOverlay.Markers.Add(GhostMarker);
+            BlipMarker.Position = new PointLatLng(Convert.ToDouble(dataGridEmrgncys.Rows[filaSeleccionada].Cells[1].Value.ToString()), Convert.ToDouble(dataGridEmrgncys.Rows[filaSeleccionada].Cells[2].Value.ToString()));
+            markerOverlay.Markers.Remove(GhostMarker);
+            markerOverlay.Markers.Add(BlipMarker);
             gMapControl1.Overlays.Add(markerOverlay);
-
             gMapControl1.Position = GhostMarker.Position;
+            Thread.Sleep(2000);
+            markerOverlay.Markers.Remove(BlipMarker);
         }
 
         private void gMapControl1_MouseDoubleClick(object sender, MouseEventArgs e)
